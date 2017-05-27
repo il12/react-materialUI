@@ -17,12 +17,19 @@ class App extends React.Component{
      };
    }
  calc(date){
-     let inpDay = moment(document.getElementById("date").value);
-     let diff = moment() - moment(inpDay);
-     let days = moment(diff).get('dates');
-     let month = moment(diff).get('month');
-     let years = moment(diff).get('year')-1970;
-     document.getElementById("result").innerHTML = `Стаж: ${years} ${formatYears(years)}, ${month} ${formatMonth(month)} и ${days} ${formatDays(days)}`
+     try {
+         let inpDay = moment(document.getElementById("date").value);
+         if(inpDay==null || inpDay==undefined || inpDay==NaN) throw new SyntaxError("Ошибка");
+         console.log(document.getElementById("date").value);
+         console.log(inpDay);
+         let diff = moment() - moment(inpDay);
+         let days = moment(diff).get('dates');
+         let month = moment(diff).get('month');
+         let years = moment(diff).get('year') - 1970;
+         document.getElementById("result").innerHTML = `Стаж: ${years} ${formatYears(years)}, ${month} ${formatMonth(month)} и ${days} ${formatDays(days)}`
+     }catch(err){
+
+     }
  }
  render() { 
      return (
@@ -30,6 +37,7 @@ class App extends React.Component{
          <div className="ui">
            <DatePicker id="date" onChange={(n=null,date)=>this.calc(date)} 
 		               floatingLabelText={this.state.floatingLabelText}
+                       autoOk={true}
              />
          </div>
        </MuiThemeProvider>
